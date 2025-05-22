@@ -1,4 +1,6 @@
 import cv2
+import numpy as np
+from PIL import ImageFont, ImageDraw, Image
 
 # Load the image
 image = cv2.imread('Grayscale.jpg')
@@ -19,20 +21,26 @@ else:
     cv2.rectangle(gray_bgr, (50, 50), (200, 200), (0, 255, 0), 2)
 
     # Add two circles encircling the eyes (approximate positions)
-    # Left eye circle
-    cv2.circle(gray_bgr, (400, 300), 50, (0, 255, 255), 3)  # yellow circle
+    cv2.circle(gray_bgr, (400, 300), 50, (0, 255, 255), 3)  # left eye
+    cv2.circle(gray_bgr, (600, 300), 50, (0, 255, 255), 3)  # right eye
 
-    # Right eye circle
-    cv2.circle(gray_bgr, (600, 300), 50, (0, 255, 255), 3)  # yellow circle
+    # Convert to PIL Image for advanced text
+    image_pil = Image.fromarray(cv2.cvtColor(gray_bgr, cv2.COLOR_BGR2RGB))
 
-    # Add text
-    cv2.putText(gray_bgr, 'Day 5', (30, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 6)
+    draw = ImageDraw.Draw(image_pil)
+    # Load Castelar font (put Castelar.ttf in your project folder or specify full path)
+    font = ImageFont.truetype("Castelar.ttf", 50)  # font size 50 (enlarged)
+
+    # Add text using Pillow
+    draw.text((30, 30), "Day 5", font=font, fill=(255, 0, 0))  # Red text
+
+    # Convert back to OpenCV format
+    final_image = cv2.cvtColor(np.array(image_pil), cv2.COLOR_RGB2BGR)
 
     # Save the final image
-    cv2.imwrite('output/grayscale_with_shapes.jpg', gray_bgr)
+    cv2.imwrite('output/grayscale_with_shapes_and_text.jpg', final_image)
 
     # Display the result
-    cv2.imshow('Edited Image', gray_bgr)
+    cv2.imshow('Edited Image', final_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
