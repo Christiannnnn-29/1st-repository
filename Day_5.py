@@ -32,7 +32,7 @@ else:
     font = ImageFont.truetype("Castelar.ttf", 50)  # font size 50 (enlarged)
 
     # Add text using Pillow
-    draw.text((30, 30), "Day 5", font=font, fill=(255, 0, 0))  # Red text
+    draw.text((30, 30), "Edited Grayscale", font=font, fill=(255, 0, 0))  # Red text
 
     # Convert back to OpenCV format
     final_image = cv2.cvtColor(np.array(image_pil), cv2.COLOR_RGB2BGR)
